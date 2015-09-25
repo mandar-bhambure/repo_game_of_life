@@ -1,9 +1,9 @@
 <div id="divLife">
 <?php
 header('Content-Type: text/html; charset=UTF-8');
-$max_x=15;
+$max_x=15; //This is to set board size
 $max_y=15;
-//$arr = array(array('1','1'),array('2','2'));
+
 $arr=array();
 $arrStr='';
 
@@ -51,7 +51,7 @@ function checkNeighbors($max_x,$max_y,&$arr){
 	$actNeighbor_cnt =	0;
 	for($x=0;$x<$max_x;$x++){
 		for($y=0;$y<$max_y;$y++){
-			//echo "<br>($x,$y):ACT ";
+			
 			$curr_x=$x;
 			$curr_y=$y;
 			
@@ -59,7 +59,7 @@ function checkNeighbors($max_x,$max_y,&$arr){
 				for($j=-1;$j<=1;$j++){
 					if(isset($arr[$x+$i][$y+$j]) /*&& ($curr_x.$curr_y!=($x+$i).($y+$j))*/ && $arr[$x+$i][$y+$j]==htmlspecialchars_decode("&#9632")) { //exclude current cell.
 						$actNeighbor_cnt++;
-						//echo "(".($x+$i).",".($y+$j).") ";
+						//commented condition is to exlcude current cell from the list of neighbors.
 						
 						
 					}
@@ -80,7 +80,6 @@ function checkNeighbors($max_x,$max_y,&$arr){
 				$arr[$x][$y] = htmlspecialchars_decode("&#9633");
 			}
 				
-			//echo $actNeighbor_cnt;
 			$actNeighbor_cnt=0;
 		}
 	}
