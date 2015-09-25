@@ -1,0 +1,110 @@
+<html>
+	<head>
+		<!-- <script src="https://code.jquery.com/jquery-1.11.3.js"></script>-->
+	</head>
+	<body>
+		
+	<!-- <canvas id="c" width="640" height="600"></canvas>-->
+	<div id="board"></div>
+	<input type="button" onclick="temp();" value="next"/>
+	</body>
+</html>
+<script type="text/javascript">
+function life_board(board_x,board_y){
+this.max_x=board_x;
+this.max_y=board_y;
+}
+life_board.prototype={
+max_x:5,
+max_y:5,
+arr: [],
+create_board:function(){
+var x;
+var y;
+	for(var x=0; x<this.max_x;x++){
+		this.arr[x]=[];
+		for(var y=0;y<this.max_y;y++){
+			this.arr[x][y]='0';
+		}
+	}
+	//alert(JSON.stringify(this.arr));return;
+},
+create_life:function(){
+	for(var x=0; x<this.max_x;x++){
+		var randomInt = Math.floor((Math.random() * (3))+ 1);
+		for(var y=0;y<this.max_y;y++){
+			this.arr[x][randomInt]='X';
+		}
+	}
+},
+check_neighbors:function(){
+	var act_neighbor_cnt = 0;
+	for(var x=0; x<this.max_x; x++){
+		for(var y=0;y<this.max_y; y++){
+			//document.write('('+x+','+y+'):ACT');
+			var curr_x = x;
+			var curr_y = y;
+			
+			for(var i=-1; i<=1; i++){
+				for(var j=-1; j<=1; j++){
+				//alert((x+i)+','+(y+j));
+			
+				
+					if(this.arr[x+i] /*&& (curr_x.curr_y!=(x+i).(y+j))*/ && this.arr[x+i][y+j]=='X') { //exclude current cell.
+						act_neighbor_cnt++;
+					
+						//document.write('('+(x+i)+','+(y+j)+') ');
+					}
+				}
+			}
+			//document.write(' CNT: '+act_neighbor_cnt+'<br>');
+			
+			
+			//Implement Rules
+			
+			if (act_neighbor_cnt <= 2 && this.arr[x][y] == "X") {
+				this.arr[x][y] = "0";
+			} else if (act_neighbor_cnt >= 4 && this.arr[x][y] == "X") {
+				this.arr[x][y] = "0";
+			} else if (act_neighbor_cnt == 3 && this.arr[x][y] == "X") {
+				this.arr[x][y] = "X";
+			} else if (act_neighbor_cnt == 3 && this.arr[x][y] == "0") {
+				this.arr[x][y] = "X";
+			} else if (this.arr[x][y] == "0") {
+				this.arr[x][y] = "0";
+			}
+			
+			act_neighbor_cnt=0;
+		}
+	}
+	//this.print_board();
+	var temp=this;
+	//setTimeout(function(){temp.print_board();}, 5000);	
+	this.print_board();
+//setTimeout(function() { temp.print_board()}, 5000);
+
+},
+print_board:function(){
+var strArr='';
+	for(var x=0; x<this.max_x;x++){
+		strArr+=this.arr[x].join(' ')+'<br>';
+	}
+
+	document.getElementById("board").innerHTML=strArr;
+}
+}
+function temp(){
+var my_life_board = new life_board(5,5);
+my_life_board.create_board();
+my_life_board.create_life();
+my_life_board.create_life();
+my_life_board.check_neighbors();
+my_life_board.print_board();
+
+
+	my_life_board.check_neighbors();
+	
+
+}
+
+</script>
